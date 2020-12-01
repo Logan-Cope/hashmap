@@ -159,9 +159,25 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        Changes the capacity of internal hash table. All existing key/value pairs remain in hash
+        map and table links are rehashed
         """
-        pass
+        # if new capacity is less than 1, do nothing and return
+        if new_capacity < 1:
+            return
+
+        # create new HashMap of specified capacity
+        new_hash_map = HashMap(new_capacity, self.hash_function)
+
+        for i in range(self.capacity):
+            linked_list = self.buckets.get_at_index(i)
+            iterable = linked_list.__iter__()
+            for element in iterable:
+                new_hash_map.put(element.key, element.value)
+
+        self.capacity = new_capacity
+        self.buckets = new_hash_map.buckets
+
 
     def get_keys(self) -> DynamicArray:
         """
@@ -307,23 +323,23 @@ if __name__ == "__main__":
     #     print(i + 1, m.get(str(i + 1)), m.get(str(i + 1)) == (i + 1) * 10)
     #
     #
-    print("\nPDF - remove example 1")
-    print("----------------------")
-    m = HashMap(50, hash_function_1)
-    print(m.get('key1'))
-    m.put('key1', 10)
-    print(m.get('key1'))
-    m.remove('key1')
-    print(m.get('key1'))
-    m.remove('key4')
-
-    print("\nPDF - resize example 1")
-    print("----------------------")
-    m = HashMap(20, hash_function_1)
-    m.put('key1', 10)
-    print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
-    m.resize_table(30)
-    print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
+    # print("\nPDF - remove example 1")
+    # print("----------------------")
+    # m = HashMap(50, hash_function_1)
+    # print(m.get('key1'))
+    # m.put('key1', 10)
+    # print(m.get('key1'))
+    # m.remove('key1')
+    # print(m.get('key1'))
+    # m.remove('key4')
+    #
+    # print("\nPDF - resize example 1")
+    # print("----------------------")
+    # m = HashMap(20, hash_function_1)
+    # m.put('key1', 10)
+    # print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
+    # m.resize_table(30)
+    # print(m.size, m.capacity, m.get('key1'), m.contains_key('key1'))
     #
     #
     # print("\nPDF - resize example 2")
