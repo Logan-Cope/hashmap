@@ -58,9 +58,14 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        Test: Write this implementation
+        Clears contents of hash map without changing underlying capacity
         """
-        pass
+        # set each bucket to an empty list
+        for i in range(self.capacity):
+            self.buckets.set_at_index(i, LinkedList())
+
+        # set size to 0
+        self.size = 0
 
     def get(self, key: str) -> object:
         """
@@ -74,9 +79,8 @@ class HashMap:
         value is replaced with given value, if given key is not in hash map, key/value will be
         added
         """
-        # use either hash_function to get position of index
-        index = hash_function_1(key) % self.capacity
-        # index = hash_function_2(key) % self.capacity
+        # use hash_function to get position of index
+        index = self.hash_function(key) % self.capacity
 
         # get the specific linked list that we're working with
         linked_list = self.buckets.get_at_index(index)
@@ -116,8 +120,6 @@ class HashMap:
                 empty_buckets += 1
         return empty_buckets
 
-        # return 0
-
     def table_load(self) -> float:
         """
         Returns the current hash table load factor
@@ -139,73 +141,72 @@ class HashMap:
 
 # BASIC TESTING
 if __name__ == "__main__":
-    print("\nPDF - empty_buckets example 1")
-    print("-----------------------------")
-    m = HashMap(100, hash_function_1)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key1', 10)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key2', 20)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key1', 30)
-    print(m.empty_buckets(), m.size, m.capacity)
-    m.put('key4', 40)
-    print(m.empty_buckets(), m.size, m.capacity)
-
-
-    print("\nPDF - empty_buckets example 2")
-    print("-----------------------------")
-    m = HashMap(50, hash_function_1)
-    for i in range(150):
-        m.put('key' + str(i), i * 100)
-        if i % 30 == 0:
-            print(m.empty_buckets(), m.size, m.capacity)
-
-
-    print("\nPDF - table_load example 1")
-    print("--------------------------")
-    m = HashMap(100, hash_function_1)
-    print(m.table_load())
-    m.put('key1', 10)
-    print(m.table_load())
-    m.put('key2', 20)
-    print(m.table_load())
-    m.put('key1', 30)
-    print(m.table_load())
-
-
-    print("\nPDF - table_load example 2")
-    print("--------------------------")
-    m = HashMap(50, hash_function_1)
-    for i in range(50):
-        m.put('key' + str(i), i * 100)
-        if i % 10 == 0:
-            print(m.table_load(), m.size, m.capacity)
-    #
-    # print("\nPDF - clear example 1")
-    # print("---------------------")
+    # print("\nPDF - empty_buckets example 1")
+    # print("-----------------------------")
     # m = HashMap(100, hash_function_1)
-    # print(m.size, m.capacity)
+    # print(m.empty_buckets(), m.size, m.capacity)
     # m.put('key1', 10)
+    # print(m.empty_buckets(), m.size, m.capacity)
     # m.put('key2', 20)
+    # print(m.empty_buckets(), m.size, m.capacity)
     # m.put('key1', 30)
-    # print(m.size, m.capacity)
-    # m.clear()
-    # print(m.size, m.capacity)
+    # print(m.empty_buckets(), m.size, m.capacity)
+    # m.put('key4', 40)
+    # print(m.empty_buckets(), m.size, m.capacity)
     #
     #
-    # print("\nPDF - clear example 2")
-    # print("---------------------")
+    # print("\nPDF - empty_buckets example 2")
+    # print("-----------------------------")
     # m = HashMap(50, hash_function_1)
-    # print(m.size, m.capacity)
+    # for i in range(150):
+    #     m.put('key' + str(i), i * 100)
+    #     if i % 30 == 0:
+    #         print(m.empty_buckets(), m.size, m.capacity)
+    #
+    #
+    # print("\nPDF - table_load example 1")
+    # print("--------------------------")
+    # m = HashMap(100, hash_function_1)
+    # print(m.table_load())
     # m.put('key1', 10)
-    # print(m.size, m.capacity)
+    # print(m.table_load())
     # m.put('key2', 20)
-    # print(m.size, m.capacity)
-    # m.resize_table(100)
-    # print(m.size, m.capacity)
-    # m.clear()
-    # print(m.size, m.capacity)
+    # print(m.table_load())
+    # m.put('key1', 30)
+    # print(m.table_load())
+    #
+    #
+    # print("\nPDF - table_load example 2")
+    # print("--------------------------")
+    # m = HashMap(50, hash_function_1)
+    # for i in range(50):
+    #     m.put('key' + str(i), i * 100)
+    #     if i % 10 == 0:
+    #         print(m.table_load(), m.size, m.capacity)
+    #
+    print("\nPDF - clear example 1")
+    print("---------------------")
+    m = HashMap(100, hash_function_1)
+    print(m.size, m.capacity)
+    m.put('key1', 10)
+    m.put('key2', 20)
+    m.put('key1', 30)
+    print(m.size, m.capacity)
+    m.clear()
+    print(m.size, m.capacity)
+
+    print("\nPDF - clear example 2")
+    print("---------------------")
+    m = HashMap(50, hash_function_1)
+    print(m.size, m.capacity)
+    m.put('key1', 10)
+    print(m.size, m.capacity)
+    m.put('key2', 20)
+    print(m.size, m.capacity)
+    m.resize_table(100)
+    print(m.size, m.capacity)
+    m.clear()
+    print(m.size, m.capacity)
     #
     #
     print("\nPDF - put example 1")
@@ -215,7 +216,6 @@ if __name__ == "__main__":
         m.put('str' + str(i), i * 100)
         if i % 25 == 24:
             print(m.empty_buckets(), m.table_load(), m.size, m.capacity)
-
 
     print("\nPDF - put example 2")
     print("-------------------")
