@@ -120,9 +120,9 @@ class HashMap:
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current hash table load factor
         """
-        return 0.0
+        return self.size / self.capacity
 
     def resize_table(self, new_capacity: int) -> None:
         """
@@ -161,26 +161,26 @@ if __name__ == "__main__":
         if i % 30 == 0:
             print(m.empty_buckets(), m.size, m.capacity)
 
-    #
-    # print("\nPDF - table_load example 1")
-    # print("--------------------------")
-    # m = HashMap(100, hash_function_1)
-    # print(m.table_load())
-    # m.put('key1', 10)
-    # print(m.table_load())
-    # m.put('key2', 20)
-    # print(m.table_load())
-    # m.put('key1', 30)
-    # print(m.table_load())
-    #
-    #
-    # print("\nPDF - table_load example 2")
-    # print("--------------------------")
-    # m = HashMap(50, hash_function_1)
-    # for i in range(50):
-    #     m.put('key' + str(i), i * 100)
-    #     if i % 10 == 0:
-    #         print(m.table_load(), m.size, m.capacity)
+
+    print("\nPDF - table_load example 1")
+    print("--------------------------")
+    m = HashMap(100, hash_function_1)
+    print(m.table_load())
+    m.put('key1', 10)
+    print(m.table_load())
+    m.put('key2', 20)
+    print(m.table_load())
+    m.put('key1', 30)
+    print(m.table_load())
+
+
+    print("\nPDF - table_load example 2")
+    print("--------------------------")
+    m = HashMap(50, hash_function_1)
+    for i in range(50):
+        m.put('key' + str(i), i * 100)
+        if i % 10 == 0:
+            print(m.table_load(), m.size, m.capacity)
     #
     # print("\nPDF - clear example 1")
     # print("---------------------")
