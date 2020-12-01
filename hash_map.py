@@ -110,9 +110,17 @@ class HashMap:
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Removes key/value pair from hash map, if key is not in hash map nothing is done
         """
-        pass
+        # use hash_function to get position of index
+        index = self.hash_function(key) % self.capacity
+
+        # get LinkedList that key would be in
+        linked_list = self.buckets.get_at_index(index)
+
+        # if key is actually removed from this linked list then decrement size
+        if linked_list.remove(key):
+            self.size -= 1
 
     def contains_key(self, key: str) -> bool:
         """
@@ -249,19 +257,19 @@ if __name__ == "__main__":
     #         print(m.empty_buckets(), m.table_load(), m.size, m.capacity)
     #
     #
-    print("\nPDF - contains_key example 1")
-    print("----------------------------")
-    m = HashMap(10, hash_function_1)
-    print(m.contains_key('key1'))
-    m.put('key1', 10)
-    m.put('key2', 20)
-    m.put('key3', 30)
-    print(m.contains_key('key1'))
-    print(m.contains_key('key4'))
-    print(m.contains_key('key2'))
-    print(m.contains_key('key3'))
-    m.remove('key3')
-    print(m.contains_key('key3'))
+    # print("\nPDF - contains_key example 1")
+    # print("----------------------------")
+    # m = HashMap(10, hash_function_1)
+    # print(m.contains_key('key1'))
+    # m.put('key1', 10)
+    # m.put('key2', 20)
+    # m.put('key3', 30)
+    # print(m.contains_key('key1'))
+    # print(m.contains_key('key4'))
+    # print(m.contains_key('key2'))
+    # print(m.contains_key('key3'))
+    # m.remove('key3')
+    # print(m.contains_key('key3'))
     #
     #
     # print("\nPDF - contains_key example 2")
@@ -308,7 +316,6 @@ if __name__ == "__main__":
     m.remove('key1')
     print(m.get('key1'))
     m.remove('key4')
-
 
     print("\nPDF - resize example 1")
     print("----------------------")
